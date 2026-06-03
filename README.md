@@ -50,7 +50,7 @@ uv pip install -r requirements.txt
 
 ## Set up environment variables
 
-1. Use the following command in the terminal to create the .env file.
+1. Use the following command in the terminal to update the .env file.
 ```bash
 # 1. Set the variables in your terminal first
 PROJECT_ID=$(gcloud config get-value project)
@@ -83,8 +83,10 @@ gcloud iam service-accounts create ${SA_NAME} \
 ```
 3. Grant the service account the Vertex AI User role, which gives it permission to call Google's models.
 ```bash
-gcloud iam service-accounts create ${SA_NAME} \
-    --display-name="Service Account for cosmic signal "
+# Grant the "Vertex AI User" role to your service account
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:$SERVICE_ACCOUNT" \
+  --role="roles/aiplatform.user"
 ```
 
 ##  Deploy the agent using the ADK CLI
